@@ -14,7 +14,7 @@ routes.get('/hello', HelloController.index);
 
 
 // Controllers Privado
-// routes.use(auth);
+routes.use(auth);
 
 routes.get('/usuarios', UsuariosController.index);
 routes.get('/usuarios/:id', UsuariosController.show);
