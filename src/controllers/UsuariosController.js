@@ -35,10 +35,22 @@ class UsuariosController {
     // Criar um usuario
     async create(req, res) {
         try {
-            const { email, senha } = req.body;
+            const { email, senha, senhaConfirm, dataNascimento, nome } = req.body;
 
             if(!senha) {
                 return res.status(422).json({ msg: " A senha é obrigatorio" })
+            }
+
+            if(senha != senhaConfirm) {
+                return res.status(422).json({msg: "As senhas devem ser iguais!"})
+            }
+
+            if(!dataNascimento) {
+                return res.status(422).json({ msg: " A data de nascimento é obrigatorio" })
+            }
+            
+            if(!nome) {
+                return res.status(422).json({ msg: "O nome é obrigatorio" })
             }
 
             const user = await User.findOne({ email });
@@ -53,7 +65,10 @@ class UsuariosController {
             const novoUser = await User.create (
                 { 
                     email, 
-                    senha: senhaProtegida 
+                    senha: senhaProtegida,
+                    senhaConfirm: senhaProtegida, 
+                    dataNascimento,
+                    nome,
                 }
             );
             
